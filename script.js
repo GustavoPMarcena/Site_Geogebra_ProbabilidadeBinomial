@@ -1,13 +1,16 @@
 const inputButton = document.getElementById("inputButton");
-let values = []; 
+let values = [];
+let chartArray = [];
 
 inputButton.addEventListener("click", () => {
     const probability = document.getElementById("probability").value;
     const attempsNumber = document.getElementById("attempsNumber").value;
     const sucessNumber = document.getElementById("sucessNumber").value;
 
-    if(probability && attempsNumber && sucessNumber) {
-        values = [probability, attempsNumber, sucessNumber]
+    if (probability && attempsNumber && sucessNumber) {
+        values = [probability, attempsNumber, sucessNumber];
+
+        destroyChartsBeforeCreate();
         calculateDistribution(probability, attempsNumber, sucessNumber);
 
         document.getElementById("probability").value = '';
@@ -21,7 +24,7 @@ function calculateDistribution(p, n, x) {
     const vectorX = [];
     const vectorXAcumulated = [];
     let sum = 0;
-    
+
     for (let i = 0; i <= n; i++) {
         //Distribuição normal
         let coefBinomial = binomialCoefficient(n, i);
@@ -34,7 +37,7 @@ function calculateDistribution(p, n, x) {
 
     const valuesId = document.getElementById("valuesId");
     valuesId.innerHTML = `Probabilidade de sucesso: ${p} <br> Número de tentativas: ${n} <br> Chance de obter ${x} sucessos: ${vectorX[values[2]].toFixed(5)}`;
-        plotGraph(vectorX, "Gráfico da distribuição binomial","pmfChart" );
+    plotGraph(vectorX, "Gráfico da distribuição binomial", "pmfChart");
     plotGraph(vectorXAcumulated, "Gráfico da distribuição binomial acumulada", "cdfChart");
     console.log(vectorX);
     console.log(vectorXAcumulated);
@@ -42,29 +45,29 @@ function calculateDistribution(p, n, x) {
 
 // Função para calcular o coeficiente binomial
 function binomialCoefficient(n, k) {
-    bin = (factorial(n)) / ((factorial(k)) * (factorial(n-k)));
+    bin = (factorial(n)) / ((factorial(k)) * (factorial(n - k)));
     return bin;
 }
 
 // Função de fatorial, apenas para não confundir muito a função de cima
-function factorial(num){
-    if(num == 1 || num == 0) return 1;
-    return num * factorial(num-1);
+function factorial(num) {
+    if (num == 1 || num == 0) return 1;
+    return num * factorial(num - 1);
 }
 
 
 function plotGraph(xValues, title, id) {
     const ctx = document.getElementById(id).getContext('2d');
-    
 
-    myChart = new Chart(ctx, {
+
+    chartArray.push(new Chart(ctx, {
         type: 'bar',
         data: {
             labels: Array.from({ length: xValues.length }, (_, i) => i),
             datasets: [{
                 label: title,
                 data: xValues,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(75, 192, 192, 1)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
@@ -85,5 +88,14 @@ function plotGraph(xValues, title, id) {
                 }
             }
         }
-    });
+    }));
+}
+
+function destroyChartsBeforeCreate() {
+    if (chartArray.length > 0) {
+        chartArray.forEach(element => {
+            element.destroy()
+        });
+    }
+
 }
