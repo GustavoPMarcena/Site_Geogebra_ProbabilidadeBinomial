@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuição binomial</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+    <main>
+        <div class="title ">
+            <h1>Atividade de Probabilidade</h1>
+            <p>Gustavo Pereira Marcena da Cruz</p>
+        </div>
+
+        <section class="container">
+            <h2>Digite os valores para calcular a distribuição binomial:</h2>
+            <div>
+                <input class="inputClass" type="number" id="probability" placeholder="Probabilidade, ex: 0.6">
+                <input class="inputClass" type="number" id="attempsNumber" placeholder="Número de tentativas, ex: 5">
+                <input class="inputClass" type="number" id="sucessNumber" placeholder="Número de sucessos: ex: 2">
+                <button id="inputButton">Calcular</button>
+            </div>
+        
+            <h2>Gráfico:</h2>
+            <div>
+                <div style="width: 80%;">
+                    <canvas id="pmfChart"></canvas>
+                    <canvas id="cdfChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+
+    <script src="script.js" ></script>
+</body>
+</html>
