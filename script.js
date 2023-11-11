@@ -1,5 +1,5 @@
 const inputButton = document.getElementById("inputButton");
-let myChart; 
+let values = []; 
 
 inputButton.addEventListener("click", () => {
     const probability = document.getElementById("probability").value;
@@ -7,6 +7,7 @@ inputButton.addEventListener("click", () => {
     const sucessNumber = document.getElementById("sucessNumber").value;
 
     if(probability && attempsNumber && sucessNumber) {
+        values = [probability, attempsNumber, sucessNumber]
         calculateDistribution(probability, attempsNumber, sucessNumber);
 
         document.getElementById("probability").value = '';
@@ -30,7 +31,10 @@ function calculateDistribution(p, n, x) {
         sum += probab;
         vectorXAcumulated.push(sum);
     }
-    plotGraph(vectorX, "Gráfico da distribuição binomial","pmfChart" );
+
+    const valuesId = document.getElementById("valuesId");
+    valuesId.innerHTML = `Probabilidade de sucesso: ${p} <br> Número de tentativas: ${n} <br> Chance de obter ${x} sucessos: ${vectorX[values[2]].toFixed(5)}`;
+        plotGraph(vectorX, "Gráfico da distribuição binomial","pmfChart" );
     plotGraph(vectorXAcumulated, "Gráfico da distribuição binomial acumulada", "cdfChart");
     console.log(vectorX);
     console.log(vectorXAcumulated);
@@ -51,10 +55,7 @@ function factorial(num){
 
 function plotGraph(xValues, title, id) {
     const ctx = document.getElementById(id).getContext('2d');
-
-    if (myChart) { // Função necessária para poder rodar o código novamente sem recarregar a página
-        myChart.destroy();
-    }
+    
 
     myChart = new Chart(ctx, {
         type: 'bar',
