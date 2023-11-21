@@ -3,19 +3,27 @@ let values = [];
 let chartArray = [];
 
 inputButton.addEventListener("click", () => {
-    const probability = document.getElementById("probability").value;
-    const attempsNumber = document.getElementById("attempsNumber").value;
-    const sucessNumber = document.getElementById("sucessNumber").value;
+    const probability = parseFloat(document.getElementById("probability").value);
+    const attempsNumber = parseInt(document.getElementById("attempsNumber").value);
+    const sucessNumber = parseInt(document.getElementById("sucessNumber").value);
 
     if (probability && attempsNumber && sucessNumber) {
-        values = [probability, attempsNumber, sucessNumber];
+        if ( probability >= 0 && probability <= 1 
+            && attempsNumber > 0 && sucessNumber > 0 
+            && attempsNumber >= sucessNumber) {
+            values = [probability, attempsNumber, sucessNumber];
 
-        destroyChartsBeforeCreate();
-        calculateDistribution(probability, attempsNumber, sucessNumber);
+            destroyChartsBeforeCreate();
+            calculateDistribution(probability, attempsNumber, sucessNumber);
 
-        document.getElementById("probability").value = '';
-        document.getElementById("attempsNumber").value = '';
-        document.getElementById("sucessNumber").value = '';
+        } else {
+            alert("Erro, Insira valores validos!");
+        }
+
+            document.getElementById("probability").value = '';
+            document.getElementById("attempsNumber").value = '';
+            document.getElementById("sucessNumber").value = '';
+
     }
 
 });
